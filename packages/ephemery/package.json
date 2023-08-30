@@ -12,15 +12,6 @@
     "exports": {
       ".": {
         "import": "./lib/index.js"
-      },
-      "./default": {
-        "import": "./lib/default.js"
-      },
-      "./networks": {
-        "import": "./lib/networks.js"
-      },
-      "./presets": {
-        "import": "./lib/presets.js"
       }
     },
     "typesVersions": {
