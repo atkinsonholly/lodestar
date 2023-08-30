@@ -2,7 +2,7 @@
     "name": "@lodestar/ephemery",
     "version": "1.0.0",
     "description": "Native ephemery scripts for Lodestar",
-    "author": "Holly Atkinson",
+    "author": "Holly Atkinson, pk910",
     "license": "Apache-2.0",
     "bugs": {
       "url": "https://github.com/ChainSafe/lodestar/issues"
