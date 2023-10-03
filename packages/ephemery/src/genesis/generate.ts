@@ -15,7 +15,6 @@ const execPromise = util.promisify(child.exec);
 // Script to generate ephemery testnet genesis for the current testnet iteration
 // This generated genesis may be used by the client to verify parameters in the downloaded state and issue an error if values don’t correspond
 
-// TODO: get validators dynamically
 const validators = [
   "laibe-node1",
   "mario-node1",
@@ -33,7 +32,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PATH_TO_GENESIS_STATE_CREATOR = path.join(__dirname, "../../../../../eth2-testnet-genesis/");
 const BASE_OUT_PATH = path.join(__dirname, "../../out/genesis");
-const RELATIVE_OUT_PATH = "../../out/genesis";
 const validatorsBaseFileUrl = "https://raw.githubusercontent.com/ephemery-testnet/ephemery-genesis/master/validators";
 const depositContractBlock = "0";
 const clExecBlock = "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -45,7 +43,6 @@ export const generateGenesis: () => void = async () => {
   await writeFile(path.join(BASE_OUT_PATH, "config.yaml"), yaml.dump(chainConfigToJson(ephemeryChainConfig)));
 
   // write txt file to out dir
-  // TODO: verify whether this needs to be hex or not
   fs.writeFileSync(`${BASE_OUT_PATH}/deposit_contract.txt`, toHexString(ephemeryChainConfig.DEPOSIT_CONTRACT_ADDRESS));
   fs.writeFileSync(`${BASE_OUT_PATH}/deploy_block.txt`, depositContractBlock);
   fs.writeFileSync(`${BASE_OUT_PATH}/deposit_contract_block.txt`, clExecBlock);
@@ -60,12 +57,11 @@ export const generateGenesis: () => void = async () => {
     fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, validatorFile);
   }
 
-  // TODO: check where pubkey comes from
   const dummyAddress = `0xb54b2811832ff970d1b3e048271e4fc9c0f4dcccac17683724f972203a6130d8ee7c26ec9bde0183fcede171deaddc4b:0x010000000000000000000000${iteration}:16000000000 \n`;
   fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, dummyAddress);
 
   // calculate genesis state, requires eth2-testnet-genesis by @protolambda, https://github.com/protolambda/eth2-testnet-genesis
-  // TODO: get eth1 config
+  // TODO: input formats
   // TODO: error handling
   await execPromise(
     `${PATH_TO_GENESIS_STATE_CREATOR}./eth2-testnet-genesis capella \
