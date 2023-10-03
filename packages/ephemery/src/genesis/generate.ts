@@ -32,6 +32,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PATH_TO_GENESIS_STATE_CREATOR = path.join(__dirname, "../../../../../eth2-testnet-genesis/");
 const BASE_OUT_PATH = path.join(__dirname, "../../out/genesis");
+// TODO: fix ETH1 path to genesis.json
+const ETH1_DATA_DIR = path.join(__dirname, "../../../../../ephemery");
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// TODO: const ETH1_DATA_DIR = process.env(DATA_DIR);
 const validatorsBaseFileUrl = "https://raw.githubusercontent.com/ephemery-testnet/ephemery-genesis/master/validators";
 const depositContractBlock = "0";
 const clExecBlock = "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -40,7 +44,12 @@ export const generateGenesis: () => void = async () => {
   fs.mkdirSync(BASE_OUT_PATH, {recursive: true});
 
   // write yaml config to out dir
-  await writeFile(path.join(BASE_OUT_PATH, "config.yaml"), yaml.dump(chainConfigToJson(ephemeryChainConfig)));
+  const yamlContent = yaml.dump(chainConfigToJson(ephemeryChainConfig));
+  await writeFile(
+    path.join(BASE_OUT_PATH, "config.yaml"),
+    // eslint-disable-next-line prettier/prettier, quotes
+    yamlContent.replace(/['"]+/g, '')
+  );
 
   // write txt file to out dir
   fs.writeFileSync(`${BASE_OUT_PATH}/deposit_contract.txt`, toHexString(ephemeryChainConfig.DEPOSIT_CONTRACT_ADDRESS));
@@ -57,7 +66,7 @@ export const generateGenesis: () => void = async () => {
     fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, validatorFile);
   }
 
-  const dummyAddress = `0xb54b2811832ff970d1b3e048271e4fc9c0f4dcccac17683724f972203a6130d8ee7c26ec9bde0183fcede171deaddc4b:0x010000000000000000000000${iteration}:16000000000 \n`;
+  const dummyAddress = `0xb54b2811832ff970d1b3e048271e4fc9c0f4dcccac17683724f972203a6130d8ee7c26ec9bde0183fcede171deaddc4b:0x010000000000000000000000${iteration}:16000000000`;
   fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, dummyAddress);
 
   // calculate genesis state, requires eth2-testnet-genesis by @protolambda, https://github.com/protolambda/eth2-testnet-genesis
@@ -67,7 +76,7 @@ export const generateGenesis: () => void = async () => {
     `${PATH_TO_GENESIS_STATE_CREATOR}./eth2-testnet-genesis capella \
             --config ${BASE_OUT_PATH}/config.yaml \
             --additional-validators ${BASE_OUT_PATH}/validators.txt \
-            --eth1-config ${BASE_OUT_PATH}/genesis.json \
+            --eth1-config ${ETH1_DATA_DIR}/genesis.json \
             --tranches-dir ${BASE_OUT_PATH}/tranches \
             --state-output ${BASE_OUT_PATH}/genesis.ssz`
   );
