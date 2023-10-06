@@ -16,9 +16,6 @@
     "./genesis": {
       "import": "./lib/genesis/index.js"
     },
-    "./reset": {
-      "import": "./lib/reset/index.js"
-    },
     "./generated": {
       "import": "./out/genesis/*"
     }

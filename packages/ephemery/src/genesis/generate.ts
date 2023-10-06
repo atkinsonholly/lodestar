@@ -82,5 +82,3 @@ export const generateGenesis: () => void = async () => {
             --state-output ${BASE_OUT_PATH}/genesis.ssz`
   );
 };
-
-generateGenesis();
