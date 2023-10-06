@@ -15,6 +15,7 @@ const execPromise = util.promisify(child.exec);
 // Script to generate ephemery testnet genesis for the current testnet iteration
 // This generated genesis may be used by the client to verify parameters in the downloaded state and issue an error if values don’t correspond
 
+// TODO: fetch list
 const validators = [
   "laibe-node1",
   "mario-node1",
