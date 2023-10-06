@@ -68,6 +68,7 @@
     "@lodestar/beacon-node": "^1.11.3",
     "@lodestar/config": "^1.11.3",
     "@lodestar/db": "^1.11.3",
+    "@lodestar/ephemery": "^1.0.0",
     "@lodestar/light-client": "^1.11.3",
     "@lodestar/logger": "^1.11.3",
     "@lodestar/params": "^1.11.3",
