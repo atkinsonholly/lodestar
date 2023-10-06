@@ -3,8 +3,8 @@ import path from "node:path";
 import {writeFile} from "node:fs/promises";
 import child from "node:child_process";
 import {fileURLToPath} from "node:url";
+import * as util from "node:util";
 import got from "got";
-import * as util from "util";
 import yaml from "js-yaml";
 import {toHexString} from "@chainsafe/ssz";
 import {ephemeryChainConfig} from "@lodestar/config/networks";
@@ -63,11 +63,11 @@ export const generateGenesis: () => void = async () => {
   for (const validator of validators) {
     // TODO: error handling
     const validatorFile = await got.get(`${validatorsBaseFileUrl}/${validator}.txt`).text();
-    fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, validatorFile);
+    fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, `\n${validatorFile}`);
   }
 
   const dummyAddress = `0xb54b2811832ff970d1b3e048271e4fc9c0f4dcccac17683724f972203a6130d8ee7c26ec9bde0183fcede171deaddc4b:0x010000000000000000000000${iteration}:16000000000`;
-  fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, dummyAddress);
+  fs.appendFileSync(`${BASE_OUT_PATH}/validators.txt`, `\n${dummyAddress}`);
 
   // calculate genesis state, requires eth2-testnet-genesis by @protolambda, https://github.com/protolambda/eth2-testnet-genesis
   // TODO: input formats
