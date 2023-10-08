@@ -55,6 +55,8 @@ docker/grafana_dev/dashboards
 # EIP-4844 (only commit .ssz file)
 packages/beacon-node/trusted_setup.json
 packages/beacon-node/trusted_setup.txt
+# Ephemery testnet out dir
+packages/ephemery/out
 
 # Wallet CLI artifacts
 .pass

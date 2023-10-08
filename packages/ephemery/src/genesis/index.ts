@@ -1,1 +1,1 @@
-export const genesis = {};
+export * from "./generate.js";
